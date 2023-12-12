@@ -88,18 +88,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String forgetpwd(String email) {
+    public boolean forgetpwd(String email) {
 
         UsersDtlsEntity entity = usersDtlsRepo.findByEmail(email);
 
         if(entity == null){
-            return "Email Id not found/Incorrect";
+            return false;
         }
 
         String subject = "Recover Password";
         String body = "Your Password :: " + entity.getPwd();
         emailUtils.sendEmail(email, subject, body);
 
-        return "Password sent successfully on your Email";
+        return true;
     }
 }

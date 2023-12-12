@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="www.thymeleaf.org">
 
+
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
-<title>Ashok IT - Login</title>
+<title>Ashok IT - Forgot Pwd</title>
 <!-- MDB icon -->
 <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
 <!-- Font Awesome -->
@@ -52,7 +53,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/">Home</a></li>
+						aria-current="page" href="#">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Services</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">Courses</a>
@@ -60,6 +61,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">Contact
 							us</a></li>
 				</ul>
+				<a href="/login" class="btn btn-danger">Login</a>
 			</div>
 		</div>
 	</nav>
@@ -82,28 +84,22 @@
 										<h4 class="mt-1 mb-5 pb-1"></h4>
 									</div>
 
+									<p th:text="${succMsg}" class="text-success"></p>
 									<p th:text="${errMsg}" class="text-danger"></p>
 
-									<form th:action="@{/login}" th:object="${loginForm}" method="post">
-										<p>Please login to your account</p>
+									<form th:action="@{/forget}" method="post">
+										<p>Recover Your Password</p>
 
 										<div class="form-outline mb-4">
 											<input type="email" id="form2Example11" class="form-control"
-												placeholder="Email" th:field="*{email}"/> <label
+												placeholder="email address" name="email"/> <label
 												class="form-label" for="form2Example11">Email</label>
 										</div>
 
-										<div class="form-outline mb-4">
-											<input type="text" id="form2Example22"
-												class="form-control" th:field="*{pwd}"/> <label class="form-label"
-												for="form2Example22">Password</label>
-										</div>
-
 										<div class="text-center pt-1 mb-5 pb-1">
-											<input type="submit" href="dashboard"
+											<input type="submit" value="Submit"
 												class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-												value="Log In">
-											<a class="text-muted" href="forget">Forgot password?</a>
+												/>
 										</div>
 
 										<div
