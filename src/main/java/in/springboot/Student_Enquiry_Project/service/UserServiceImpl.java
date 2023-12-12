@@ -18,9 +18,21 @@ public class UserServiceImpl implements UserService {
     private UsersDtlsRepo usersDtlsRepo;
     @Autowired
     private EmailUtils emailUtils;
+
     @Override
     public String login(LoginForm form) {
-        return null;
+
+        UsersDtlsEntity entity = usersDtlsRepo.findByEmailAndPwd(form.getEmail(), form.getPwd());
+
+        if(entity == null){
+            return "Invalid Credentials";
+        }
+
+        if(entity.getAccStatus().equals("LOCKED")){
+            return "your account is locked, check your mail";
+        }
+
+        return "success";
     }
 
     @Override
@@ -61,12 +73,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String unlock(UnlockForm form) {
-        return null;
+    public boolean unlockAccount(UnlockForm form) {
+
+        UsersDtlsEntity entity = usersDtlsRepo.findByEmail(form.getEmail());
+
+        if(entity.getPwd().equals(form.getTempPwd())){
+            entity.setPwd(form.getNewPwd());
+            entity.setAccStatus("UNLOCKED");
+            usersDtlsRepo.save(entity);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override
     public String forgetpwd(String email) {
-        return null;
+
+        UsersDtlsEntity entity = usersDtlsRepo.findByEmail(email);
+
+        if(entity == null){
+            return "Email Id not found/Incorrect";
+        }
+
+        String subject = "Recover Password";
+        String body = "Your Password :: " + entity.getPwd();
+        emailUtils.sendEmail(email, subject, body);
+
+        return "Password sent successfully on your Email";
     }
 }

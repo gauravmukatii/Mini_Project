@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UsersDtlsRepo extends JpaRepository<UsersDtlsEntity, Integer> {
 
     public UsersDtlsEntity findByEmail(String email);
+
+    public UsersDtlsEntity findByEmailAndPwd(String email, String pwd);
 }
