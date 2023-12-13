@@ -9,9 +9,10 @@ import java.util.List;
 public interface EnquiryService {
 
     public DashboardResponse getdashboardData(Integer userId);
-    public List<EnquiryForm> getCourseName();
-    public List<EnquiryForm> getEnquririesStatus();
-    public String upsertEnquiry(EnquiryForm form);
+    public List<String> getCourseNames();
+
+    public List<String> getEnquririesStatus();
+    public boolean upsertEnquiry(EnquiryForm form);
 
     public List<EnquiryForm> getEnquiries(Integer userId, EnquirySearchCriteria criteria);
 
