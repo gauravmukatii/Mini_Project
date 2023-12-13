@@ -7,6 +7,7 @@ import in.springboot.Student_Enquiry_Project.entity.UsersDtlsEntity;
 import in.springboot.Student_Enquiry_Project.repos.UsersDtlsRepo;
 import in.springboot.Student_Enquiry_Project.utils.EmailUtils;
 import in.springboot.Student_Enquiry_Project.utils.PwdUtils;
+import jakarta.servlet.http.HttpSession;
 import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class UserServiceImpl implements UserService {
     private UsersDtlsRepo usersDtlsRepo;
     @Autowired
     private EmailUtils emailUtils;
+    @Autowired
+    private HttpSession session;
 
     @Override
     public String login(LoginForm form) {
@@ -31,6 +34,9 @@ public class UserServiceImpl implements UserService {
         if(entity.getAccStatus().equals("LOCKED")){
             return "your account is locked, check your mail";
         }
+
+        //create session and store user data in session
+        session.setAttribute("userId", entity.getUserId());
 
         return "success";
     }

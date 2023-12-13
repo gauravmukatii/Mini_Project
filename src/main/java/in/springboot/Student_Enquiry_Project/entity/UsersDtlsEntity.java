@@ -3,6 +3,7 @@ package in.springboot.Student_Enquiry_Project.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,9 +17,10 @@ public class UsersDtlsEntity {
     private String name;
     private String email;
     private String pwd;
-    private String phno;
+    private Long phno;
     private String accStatus;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<StudentEnquiry> enquiries;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<StudentEnquiry> enquiries;
 }
