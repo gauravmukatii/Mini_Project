@@ -3,7 +3,6 @@ package in.springboot.Student_Enquiry_Project.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity

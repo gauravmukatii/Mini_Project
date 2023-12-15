@@ -12,6 +12,7 @@ import in.springboot.Student_Enquiry_Project.repos.EnqStatusRepo;
 import in.springboot.Student_Enquiry_Project.repos.StudentEnquiryRepo;
 import in.springboot.Student_Enquiry_Project.repos.UsersDtlsRepo;
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,12 +107,46 @@ public class EnquiryServiceImpl implements EnquiryService {
     }
 
     @Override
-    public List<EnquiryForm> getEnquiries(Integer userId, EnquirySearchCriteria criteria) {
+    public List<StudentEnquiry> getEnquiries() {
+
+        Integer userId = (Integer) session.getAttribute("userId");
+        Optional<UsersDtlsEntity> findById = usersDtlsRepo.findById(userId);
+        if(findById.isPresent()){
+            UsersDtlsEntity usersDtlsEntity = findById.get();
+            List<StudentEnquiry> enquiries = usersDtlsEntity.getEnquiries();
+            return enquiries;
+        }
         return null;
     }
 
     @Override
-    public EnquiryForm getEnquiry(Integer enqId) {
+    public List<StudentEnquiry> getFilteredEnqs(EnquirySearchCriteria criteria, Integer userId) {
+        Optional<UsersDtlsEntity> findById = usersDtlsRepo.findById(userId);
+        if(findById.isPresent()){
+            UsersDtlsEntity usersDtlsEntity = findById.get();
+            List<StudentEnquiry> enquiries = usersDtlsEntity.getEnquiries();
+
+            if(null!=criteria.getCourseName() && !"".equals(criteria.getCourseName())){
+               enquiries =  enquiries.stream()
+                                    .filter(e -> e.getCourseName()
+                                    .equals(criteria.getCourseName()))
+                                    .collect(Collectors.toList());
+            }
+
+            if(null!=criteria.getEnqStatus() && !"".equals(criteria.getEnqStatus())){
+                enquiries =  enquiries.stream()
+                                    .filter(e -> e.getEnqStatus()
+                                    .equals(criteria.getEnqStatus()))
+                                    .collect(Collectors.toList());
+            }
+
+            if(null!=criteria.getClassMode() && !"".equals(criteria.getClassMode())){
+                enquiries =  enquiries.stream()
+                        .filter(e -> e.getClassMode().equals(criteria.getClassMode()))
+                        .collect(Collectors.toList());
+            }
+            return enquiries;
+        }
         return null;
     }
 }
